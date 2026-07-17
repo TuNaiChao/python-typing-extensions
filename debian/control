@@ -5,7 +5,7 @@ Section: python
 Testsuite: autopkgtest-pkg-python
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
-               flit,
+               flit (>= 3.11),
                pybuild-plugin-pyproject,
                python3-all:any,
                python3-setuptools

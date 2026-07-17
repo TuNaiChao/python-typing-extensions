@@ -1,3 +1,79 @@
+# Release 4.13.2 (April 10, 2025)
+
+- Fix `TypeError` when taking the union of `typing_extensions.TypeAliasType` and a
+  `typing.TypeAliasType` on Python 3.12 and 3.13.
+  Patch by [Joren Hammudoglu](https://github.com/jorenham).
+- Backport from CPython PR [#132160](https://github.com/python/cpython/pull/132160)
+  to avoid having user arguments shadowed in generated `__new__` by
+  `@typing_extensions.deprecated`.
+  Patch by [Victorien Plot](https://github.com/Viicos).
+
+# Release 4.13.1 (April 3, 2025)
+
+Bugfixes:
+- Fix regression in 4.13.0 on Python 3.10.2 causing a `TypeError` when using `Concatenate`.
+  Patch by [Daraan](https://github.com/Daraan).
+- Fix `TypeError` when using `evaluate_forward_ref` on Python 3.10.1-2 and 3.9.8-10.
+  Patch by [Daraan](https://github.com/Daraan).
+
+# Release 4.13.0 (March 25, 2025)
+
+No user-facing changes since 4.13.0rc1.
+
+# Release 4.13.0rc1 (March 18, 2025)
+
+New features:
+
+- Add `typing_extensions.TypeForm` from PEP 747. Patch by
+  Jelle Zijlstra.
+- Add `typing_extensions.get_annotations`, a backport of
+  `inspect.get_annotations` that adds features specified
+  by PEP 649. Patches by Jelle Zijlstra and Alex Waygood.
+- Backport `evaluate_forward_ref` from CPython PR
+  [#119891](https://github.com/python/cpython/pull/119891) to evaluate `ForwardRef`s.
+  Patch by [Daraan](https://github.com/Daraan), backporting a CPython PR by Jelle Zijlstra.
+
+Bugfixes and changed features:
+
+- Update PEP 728 implementation to a newer version of the PEP. Patch by Jelle Zijlstra.
+- Copy the coroutine status of functions and methods wrapped
+  with `@typing_extensions.deprecated`. Patch by Sebastian Rittau.
+- Fix bug where `TypeAliasType` instances could be subscripted even
+  where they were not generic. Patch by [Daraan](https://github.com/Daraan).
+- Fix bug where a subscripted `TypeAliasType` instance did not have all
+  attributes of the original `TypeAliasType` instance on older Python versions.
+  Patch by [Daraan](https://github.com/Daraan) and Alex Waygood.
+- Fix bug where subscripted `TypeAliasType` instances (and some other
+  subscripted objects) had wrong parameters if they were directly
+  subscripted with an `Unpack` object.
+  Patch by [Daraan](https://github.com/Daraan).
+- Backport to Python 3.10 the ability to substitute `...` in generic `Callable`
+  aliases that have a `Concatenate` special form as their argument.
+  Patch by [Daraan](https://github.com/Daraan).
+- Extended the `Concatenate` backport for Python 3.8-3.10 to now accept
+  `Ellipsis` as an argument. Patch by [Daraan](https://github.com/Daraan).
+- Fix backport of `get_type_hints` to reflect Python 3.11+ behavior which does not add
+  `Union[..., NoneType]` to annotations that have a `None` default value anymore.
+  This fixes wrapping of `Annotated` in an unwanted `Optional` in such cases.
+  Patch by [Daraan](https://github.com/Daraan).
+- Fix error in subscription of `Unpack` aliases causing nested Unpacks
+  to not be resolved correctly. Patch by [Daraan](https://github.com/Daraan).
+- Backport CPython PR [#124795](https://github.com/python/cpython/pull/124795):
+  fix `TypeAliasType` not raising an error on non-tuple inputs for `type_params`.
+  Patch by [Daraan](https://github.com/Daraan).
+- Fix that lists and `...` could not be used for parameter expressions for `TypeAliasType`
+  instances before Python 3.11.
+  Patch by [Daraan](https://github.com/Daraan).
+- Fix error on Python 3.10 when using `typing.Concatenate` and
+  `typing_extensions.Concatenate` together. Patch by [Daraan](https://github.com/Daraan).
+- Backport of CPython PR [#109544](https://github.com/python/cpython/pull/109544)
+  to reflect Python 3.13+ behavior: A value assigned to `__total__` in the class body of a
+  `TypedDict` will be overwritten by the `total` argument of the `TypedDict` constructor.
+  Patch by [Daraan](https://github.com/Daraan), backporting a CPython PR by Jelle Zijlstra.
+- `isinstance(typing_extensions.Unpack[...], TypeVar)` now evaluates to `False` on Python 3.11
+  and newer, but remains `True` on versions before 3.11.
+  Patch by [Daraan](https://github.com/Daraan).
+
 # Release 4.12.2 (June 7, 2024)
 
 - Fix regression in v4.12.0 where specialization of certain
